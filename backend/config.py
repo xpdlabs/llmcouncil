@@ -9,14 +9,13 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 # Council members - list of OpenRouter model identifiers
 COUNCIL_MODELS = [
-    "anthropic/claude-sonnet-5",   # Analitik derinlik + kod/mantık
-    "openai/gpt-5.4",              # Genel amaçlı, geniş bilgi tabanı
-    "google/gemini-3.5-flash",     # Hızlı, güncel bilgi/arama entegrasyonu
-    "x-ai/grok-4.3",               # Farklı bakış açısı, güncel olaylara duyarlılık
+    "openai/gpt-5.4",              # Ağır mantık, felsefe ve katı kurallar
+    "google/gemini-3.5-flash",     # Hızlı, geniş bağlam ve güncel veri dengesi
+    "anthropic/claude-sonnet-5",   # Kusursuz teknik analiz, kod ve rasyonel derinlik
 ]
 
 # Chairman model - synthesizes final response
-CHAIRMAN_MODEL = "anthropic/claude-opus-4.8"  # Sentezleme ve dengeli özet için en güçlü model
+CHAIRMAN_MODEL = "deepseek/deepseek-v4-pro"  # Tarafsız, muazzam sentez yeteneği ve bütçe dostu
 
 # OpenRouter API endpoint
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
