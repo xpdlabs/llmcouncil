@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+# Hızlı Python paket yönetimi için uv aracını kuruyoruz
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+WORKDIR /app
+
+# Bağımlılık dosyalarını kopyala ve yükle
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev
+
+# Projenin kalanını kopyala
+COPY . .
+
+# FastAPI'yi dış dünyaya açmak için uvicorn'u 0.0.0.0 üzerinden çalıştırıyoruz
+CMD ["uv", "run", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8001"]

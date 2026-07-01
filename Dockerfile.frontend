@@ -1,0 +1,18 @@
+# Build Aşaması
+FROM node:20-slim AS build
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ ./
+
+# Coolify panelinden vereceğimiz backend URL'ini build anından enjekte ediyoruz
+ARG VITE_API_BASE
+ENV VITE_API_BASE=$VITE_API_BASE
+
+RUN npm run build
+
+# Yayınlama Aşaması (Nginx)
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
