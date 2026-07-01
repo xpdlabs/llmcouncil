@@ -8,18 +8,12 @@ from .config import OPENROUTER_API_KEY, OPENROUTER_API_URL
 async def query_model(
     model: str,
     messages: List[Dict[str, str]],
-    timeout: float = 120.0
+    timeout: float = 120.0,
+    temperature: Optional[float] = None,
+    reasoning_effort: Optional[str] = None
 ) -> Optional[Dict[str, Any]]:
     """
     Query a single model via OpenRouter API.
-
-    Args:
-        model: OpenRouter model identifier (e.g., "openai/gpt-4o")
-        messages: List of message dicts with 'role' and 'content'
-        timeout: Request timeout in seconds
-
-    Returns:
-        Response dict with 'content' and optional 'reasoning_details', or None if failed
     """
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -30,6 +24,14 @@ async def query_model(
         "model": model,
         "messages": messages,
     }
+
+    # Eğer dışarıdan bir sıcaklık değeri gönderildiyse payload'a ekle
+    if temperature is not None:
+        payload["temperature"] = temperature
+
+    # Akıl yürütme parametresini sadece destekleyen OpenAI modelleri için ekle
+    if reasoning_effort and ("gpt-" in model or "o1" in model or "o3" in model):
+        payload["reasoning_effort"] = reasoning_effort
 
     try:
         async with httpx.AsyncClient(timeout=timeout) as client:
@@ -55,22 +57,20 @@ async def query_model(
 
 async def query_models_parallel(
     models: List[str],
-    messages: List[Dict[str, str]]
+    messages: List[Dict[str, str]],
+    temperature: Optional[float] = None,
+    reasoning_effort: Optional[str] = None
 ) -> Dict[str, Optional[Dict[str, Any]]]:
     """
-    Query multiple models in parallel.
-
-    Args:
-        models: List of OpenRouter model identifiers
-        messages: List of message dicts to send to each model
-
-    Returns:
-        Dict mapping model identifier to response dict (or None if failed)
+    Query multiple models in parallel with specific parameters.
     """
     import asyncio
 
-    # Create tasks for all models
-    tasks = [query_model(model, messages) for model in models]
+    # Parametreleri tekil model sorgularına pasla
+    tasks = [
+        query_model(model, messages, temperature=temperature, reasoning_effort=reasoning_effort) 
+        for model in models
+    ]
 
     # Wait for all to complete
     responses = await asyncio.gather(*tasks)
