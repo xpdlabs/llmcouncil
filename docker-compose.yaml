@@ -7,8 +7,10 @@ services:
       dockerfile: Dockerfile.backend
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - UV_CACHE_DIR=/app/.uv_cache # UV önbelleğini buraya yönlendir
     volumes:
       - llm_council_chats:/app/data
+      - uv_cache:/app/.uv_cache # Önbelleği kalıcı yap
     restart: always
 
   frontend:
@@ -23,3 +25,4 @@ services:
 
 volumes:
   llm_council_chats:
+  uv_cache: # Yeni kalıcı volume
