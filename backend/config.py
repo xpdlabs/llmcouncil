@@ -17,7 +17,7 @@ COUNCIL_MODELS = [
 ]
 
 # Chairman model - synthesizes final response
-CHAIRMAN_MODEL = "deepseek/deepseek-v4-pro"  # Tarafsız, muazzam sentez yeteneği ve bütçe dostu
+CHAIRMAN_MODEL = "deepseek/deepseek-v4-pro"
 
 # OpenRouter API endpoint
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
