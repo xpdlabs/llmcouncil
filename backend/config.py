@@ -9,10 +9,11 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 # Council members - list of OpenRouter model identifiers
 COUNCIL_MODELS = [
-    "openai/gpt-5.4",              # Ağır mantık, felsefe ve katı kurallar
-    "~google/gemini-pro-latest",   # Hızlı, geniş bağlam ve güncel veri dengesi
-    "anthropic/claude-sonnet-5",   # Kusursuz teknik analiz, kod ve rasyonel derinlik
-    "qwen/qwen3.7-max",            # Yaratıcı, geniş bağlam ve esnek düşünce
+    "openai/gpt-5.6-terra-pro",
+    "google/gemini-3.5-flash",
+    "anthropic/claude-sonnet-5",
+    "qwen/qwen3.7-max",
+    "x-ai/grok-4.5",
 ]
 
 # Chairman model - synthesizes final response
